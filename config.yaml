@@ -1,0 +1,6 @@
+homeserver: "https://matrix.envs.net"
+user: "tscbot"
+pass: "insert password here"
+mongo_uri: "insert MongoDB URI here"
+mongo_db: "TSCBot"
+prefix: "m!"
