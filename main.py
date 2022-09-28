@@ -2,7 +2,7 @@ import simplematrixbotlib as matrix
 import yaml
 import pymongo
 import requests
-from datetime import datetime
+from time import time
 
 with open('config.yaml', 'r') as config_file:
     config = yaml.load(config_file, Loader=yaml.BaseLoader)
@@ -10,7 +10,7 @@ with open('config.yaml', 'r') as config_file:
 bot = matrix.Bot(matrix.Creds(config['homeserver'], config['user'], config['pass']))
 mongodb = pymongo.MongoClient(config['mongo_uri'])[config['mongo_db']]
 print('Connected to MongoDB')
-starttime = datetime.now()
+starttime = time()
 
 custom_commands = {}
 for command in mongodb['custom-commands'].find():
@@ -58,7 +58,7 @@ async def online_cmds(room, message):
         return
 
     if match.command("uptime"):
-        seconds = int(datetime.now().strftime("%s")) - int(starttime.strftime("%s"))
+        seconds = round(time() - starttime)
         fancytime = await seconds_to_fancytime(seconds, 3)
         await bot.api.send_text_message(room.room_id, f"I have been online for {fancytime}.")
     elif match.command("ping"):
